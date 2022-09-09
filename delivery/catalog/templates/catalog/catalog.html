@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<div>
+		{% for prod in prods %}
+			<div>
+				<h3>
+					<a href="{{ prod.get_absolute_url }}">
+						{{ prod.title }}
+					</a>
+				</h3>
+				<div>
+					{{ prod.price }} <h4 style="display: inline;">AED</h4>
+				</div>
+			</div>
+
+		{% endfor %}
+	</div>
+{% endblock %}
