@@ -1,0 +1,14 @@
+1. page with all products
+	filter products by the organizations
+
+2. detailed page of each product 
+	all info and organization info
+
+3. page with list of organizations. 
+	on this page also map with all organizations marked.
+
+4. detailed pade of organization
+	and it's menu
+
+5. admin page with ability to add/update products, organizations.
+6. main page with all info of main organization
