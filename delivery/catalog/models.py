@@ -33,6 +33,9 @@ class Product(models.Model):
 
 	def get_absolute_url(self):
 		return reverse("catalog:product_detail", kwargs={"slug": self.slug})
+	
+	def get_iamge(self):
+		return list(self.images.objects.all())[0].image.url
 
 
 class Image(models.Model):

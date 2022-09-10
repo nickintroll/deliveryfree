@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	{% for place in places %}
-		<a href="{{ place.get_absolute_url }}">
-			{{ place.name }}
-		</a>	
-	{% endfor %}
+	<div class="centered">
+		{% for place in places %}
+		<div class="place-item-list">
+			<div>
+				<a href="{{ place.get_absolute_url }}">
+					{{ place.name }}
+				</a>	
+				<div>
+					{{ place.location }}
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
 {% endblock %}

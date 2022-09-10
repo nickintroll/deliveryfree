@@ -1,0 +1,160 @@
+@import url(//fonts.googleapis.com/css?family=Lato:300:400);
+
+body {
+  margin:0;
+}
+
+h1 {
+  font-family: 'Lato', sans-serif;
+  font-weight:300;
+  font-size:48px;
+  height: fit-content;
+  margin: 0;
+  display: inline;
+}
+
+.header {
+  position:relative;
+  text-align:center;
+  background: linear-gradient(60deg, rgb(27, 51, 19), rgb(28, 226, 143));
+  color:white;
+}
+.logo {
+  width:50px;
+  fill:white;
+  padding-right:15px;
+  display:inline-block;
+  vertical-align: bottom;
+}
+
+.inner-header {
+  width:100%;
+  margin: 0;
+  padding: 0;
+  margin-bottom: -30px;
+}
+
+.waves {
+  position:relative;
+  width: 100%;
+  height:15vh;
+  margin-bottom:-7px; /*Fix for safari gap*/
+  min-height:100px;
+  max-height:150px;
+}
+
+.sub-header{
+	min-width: 50%;
+}
+.sub-header > div{
+	width: fit-content;
+	position: relative;
+	margin-right: 0;
+	margin-left: auto;
+}
+
+.centered{
+	width: fit-content;
+	margin: 0 auto;
+}
+
+
+.inline{
+	display: flex;
+	gap: 20px;
+}
+
+.grid{
+	width: 100%;
+	justify-content: center;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 350px));
+	gap: 10px;
+}
+
+h2{
+	font-size: 30px;
+}
+h3{
+	margin: 0px;
+	font-size: 22px;
+
+}
+h4{
+	font-size: 18px;
+}
+
+.catalog-item{
+	background-color: rgb(161, 212, 139);
+
+	border-radius: 5px;
+	padding: 10px;
+	height: fit-content; 
+}
+.catalog-item > div{
+	background-color: white;
+	box-shadow: 5px 5px 10px rgba(107, 107, 107, 0.7);
+
+	border-radius: 5px;
+	padding: 10px;
+
+}
+.catalog-item-description{
+	font-size: 15px;
+	margin-top: -10px;
+	margin-bottom: -10px;
+	max-width: 200px;
+}
+
+.catalog-item-image > img{
+	max-width: 125px;
+	max-height: 100px
+	
+}
+
+.catalog-item-image{
+	position: relative;
+	margin-right: 0;
+	margin-left: auto;
+}
+
+.before-item{
+	background-color: rgb(161, 212, 139);
+
+	border-radius: 5px;
+	padding: 15px;
+	height: fit-content; 
+}
+.item{
+	background-color: white;
+	box-shadow: 0px 0px 10px rgba(56, 56, 56, 0.9);
+
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.item-img > img{
+	max-height: 300px;
+	max-width: 400px;
+
+}
+
+.place-item-list{
+	background-color: rgb(139, 156, 212);
+
+	border-radius: 5px;
+	padding: 10px;
+	height: fit-content; 
+}
+
+.place-item-list > div{
+	min-width: 300px;
+	background-color: white;
+	
+	box-shadow: 0px 0px 10px rgba(56, 56, 56, 0.9);
+
+	border-radius: 5px;
+	padding: 10px;
+	height: fit-content; 
+
+}

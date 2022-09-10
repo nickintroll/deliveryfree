@@ -1,13 +1,52 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{ place.name }}</h1>
+
+
+<div class="centered place-item-list">
+	<div class="inline">
+		<div>
+			<h1>{{ place.name }}</h1>
+			<div>
+				location: {{ place.location }}
+			</div>
+			<div id="map">
+				<iframe src="https://www.google.com.qa/maps/d/embed?mid=191rI7jWetnkI9hcRO-nHm6WYNn8nrNg&ehbc=2E312F" width="640" height="480"></iframe>
+			</div>	
+		</div>
+		<div style="margin-left: 10px">
+			<h1>
+				Menu:
+			</h1>
+			<br>
+			<br>
+			{% for prod in place.products.all %}
+			<div class="catalog-item" style="margin-bottom: 10px;">
+				<div class="inline">
+					<div>
+						<h3>
+							<a href="{{ prod.get_absolute_url }}">
+								{{ prod.title|truncatechars:10 }}
+							</a>
+						</h3>
+						<div class="catalog-item-description">
+							{{ prod.description|truncatewords:7|truncatechars:40|linebreaks }}
+						</div>
+						<div>
+							<h4 style="display: inline;">{{ prod.price }}</h4> <h5 style="display: inline;">AED</h5>
+						</div>	
+	
+					</div>
+					<div class="catalog-item-image">
+						<img src="{{ prod.images.all.0.image.url }}">
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+	</div>		
+</div>
 {% endblock %}
 
 
-
-<!-- 
-	ADD design
-	add map(complited desigions)
- -->
-
+<!-- https://www.google.com.qa/maps/d/edit?mid=191rI7jWetnkI9hcRO-nHm6WYNn8nrNg&usp=sharing -->
