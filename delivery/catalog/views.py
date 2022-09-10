@@ -7,6 +7,7 @@ def catalog_view(request):
 
 	return render(request, 'catalog/catalog.html', {'prods':prods})
 
+
 def product_detail(request, slug):
 
 	product = Product.objects.get(slug=slug)

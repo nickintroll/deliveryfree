@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
 	# created apps
-	'catalog.apps.CatalogConfig'
+	'catalog.apps.CatalogConfig',
+	'places.apps.PlacesConfig',
 ]
 
 MIDDLEWARE = [

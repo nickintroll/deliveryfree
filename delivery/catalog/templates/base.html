@@ -7,10 +7,17 @@
 	<title>Document</title>
 </head>
 <body>
-	<div class="header">
-		<h2>
-			HEADER
+	<div class="header" style="width:fit-content; margin:0 auto">
+		<a href="{% url 'places:catalog' %}">
+			Places
+		</a>
+		<h2 style="display: inline;">
+			|FoodDelivery|
 		</h2>
+		<a href="{% url 'catalog:catalog' %}">
+			Catalog			
+		</a>
+
 	</div>
 	{% block content %}
 	{% endblock %}

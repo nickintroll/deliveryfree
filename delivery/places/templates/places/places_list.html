@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	{% for place in places %}
+		<a href="{{ place.get_absolute_url }}">
+			{{ place.name }}
+		</a>	
+	{% endfor %}
+{% endblock %}

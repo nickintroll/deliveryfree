@@ -1,4 +1,6 @@
 from django.db import models
+from django.shortcuts import reverse
+from catalog.models import Product
 
 
 class Organization(models.Model):
@@ -6,7 +8,7 @@ class Organization(models.Model):
 	name 		= models.CharField(max_length=60)
 
 	location	= models.TextField()
-	products	= models.OneToMany()
+	products	= models.ManyToManyField(Product)
 
 	class Meta:
 		ordering = ('name', )
@@ -25,5 +27,5 @@ class Organization(models.Model):
 	def __str__(self):
 		return f'{self.name}: {self.location}'
 	
-#	def get_absolute_url(self):
-#		return reverse("catalog:product_detail", kwargs={"slug": self.slug})
+	def get_absolute_url(self):
+		return reverse("places:place_detail", kwargs={"slug": self.slug})
