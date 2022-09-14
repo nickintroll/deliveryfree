@@ -2,15 +2,17 @@
 
 {% block content %}
 <div class="centered before-item">
-	<div class="item">
+	<div class="item" style="position: relative;">
 		<div class="inline">
 			<div class="item-img">
 				<img src="{{ prod.images.all.0.image.url }}">
 			</div>
 			<div>
-				<h2>
-					{{ prod.title }}
-				</h2>
+				<div class="big-cool-tittle">
+					<h2>
+						{{ prod.title }}
+					</h2>	
+				</div>
 				<div>
 					<div class="inline" style="max-width: 600px;">
 						<div>
@@ -27,14 +29,20 @@
 			</div>
 	
 		</div>
-		<div style="position: relative;width: fit-content; margin-right: 10px;">
-			<h2 style="display: inline;">
-				{{ prod.price }}
-			</h2>
-			<h4 style="display: inline;">
-				AED
-			</h4>
-			for {{ prod.weight }}
+		<div style="position: absolute; bottom: -60px; right:20px">
+			<div class='price-bark'>
+				<div style="border-bottom: 1px solid gold; margin-bottom: 10px;">
+					<h2 style="display: inline;" >
+						{{ prod.price }}
+					</h2>
+					<h4 style="display: inline;">
+						AED
+					</h4>		
+				</div>
+				<div>
+					for {{ prod.weight }} lbs
+				</div>	
+			</div>
 		</div>
 	</div>	
 </div>

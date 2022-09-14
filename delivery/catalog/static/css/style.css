@@ -1,7 +1,10 @@
 @import url(//fonts.googleapis.com/css?family=Lato:300:400);
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Buhid&display=swap');
 
 body {
   margin:0;
+  font-family: 'Noto Sans Buhid', sans-serif;
+
 }
 
 h1 {
@@ -46,12 +49,19 @@ h1 {
 .sub-header{
 	min-width: 50%;
 }
+
+
 .sub-header > div{
 	width: fit-content;
 	position: relative;
 	margin-right: 0;
 	margin-left: auto;
 }
+
+.sub-header > div > div > a > h2{
+	margin: 0 0 0 0;
+}
+
 
 .centered{
 	width: fit-content;
@@ -135,8 +145,10 @@ h4{
 
 .item-img > img{
 	max-height: 300px;
-	max-width: 400px;
-
+	max-width: 600px;
+	border-radius: 5px;
+	/* margin-top: -5px; */
+	/* margin-left: -5px; */
 }
 
 .place-item-list{
@@ -158,3 +170,30 @@ h4{
 	height: fit-content; 
 
 }
+
+.big-cool-tittle{
+	/* width: fit-content; */
+	border-bottom: 1px solid black;	
+	margin-bottom: 10px;
+
+}
+.big-cool-tittle > h2{
+	margin: 0;
+}
+
+.price-bark{
+	background-color: rgb(187, 37, 37);
+	color: white;
+	padding: 20px;
+	text-align: center;	
+	border-radius: 0 0 50px 50px;
+	height: 100px;
+}
+
+.abovemap{
+	/* background-color: rgba(80, 173, 80, 0.233); */
+	position: relative;
+}
+
+
+
