@@ -1,0 +1,54 @@
+{% for job in jobs %}
+<div class="four-columns">
+	<div class="block span-three">
+		<h3>
+			<a href="{{ job.get_absolute_url }}">
+				{{ job.job_title|title }}
+			</a>
+			<span class="fade-text">
+				( {{ job.salary }}p)
+			</span>
+		</h3>
+		<div class="five-columns">
+			
+			<div class="span-four">
+				<div class="gray-back">
+					{{ job.description }}
+				</div>
+				<h6 class="stick-to-right">
+					{{ job.created.year }}.{{ job.created.month }}.{{ job.created.day }} {{ job.created.hour }}:{{ job.created.minute }}
+				</h6>
+
+			</div>
+			<div style="margin-right: 0.1rem; margin-bottom: -0.5rem; margin-right: -1rem; border-radius: 0.2rem; padding: .2rem .5rem;" class="requirements reques-small">
+				<h4>
+					Requirements
+				</h4>
+				{% for req in job.requirements.all %}
+				<h5>
+					{{ req }}
+				</h5>
+				{% empty %}
+					----
+				{% endfor %}
+			</div>
+
+		</div>
+		
+
+	</div>
+	<div class="block">
+			<h3>
+				<a href="{{ job.owner.get_absolute_url }}">
+					{{ job.owner }}
+				</a>
+			</h3>
+			<div class="gray-back">
+				{{ job.owner.imlookingfor }}
+			</div>
+			<div>
+				message?
+			</div>
+	</div>
+</div>
+{% endfor %}

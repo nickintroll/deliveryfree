@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<title>Job search</title>
+</head>
+<body>
+	<div class="centered header-2 seven-columns content-width">
+		<div class="smooth-left" style="text-align: center;">
+			<a href="{% url 'jobs:main' %}" class="blend-link">
+				JobSearch
+			</a>
+		</div>
+		<div style="text-align:center;">
+			<a href="{% url 'jobs:main' %}">
+				Jobs
+			</a>
+		</div>
+		<div style="text-align:center;">
+			<a href="{% url 'users:list' %}">
+				Employee
+			</a>
+		</div>
+		<div class="span-three phone-hide">
+		</div>
+		<div class="header-profile-block smooth-right"> 
+			{% if request.user.is_authenticated %}
+				<a href="{% url 'users:profile'%}">
+					{{ request.user|title }}
+				</a>
+			{% else %}
+				<a href="{% url 'users:login'%}">
+					login
+				</a>
+			{% endif %}
+
+		</div>
+	</div>
+	<div style="min-height: 70vh;">
+		{% block content %}
+
+		{% endblock %}	
+	
+	</div>
+	<div class="content-width centered " >
+		<div class="block">
+			<h2>
+				The developer
+			</h2>
+			<div>
+				<h4>telegram:</h4>
+				<a href="https://t.me/nickintroll">
+					@nickintroll
+				</a>
+			</div>
+			<div>
+				<h4>Vk:</h4>
+				<a href="https://vk.com/nikkihoma666">
+					@nickintroll
+				</a>
+			</div>
+	
+	<!-- test password(6=<): passWord1321forTest-->
+		</div>
+	</div>
+</body>
+{% block afterbody %}
+{% endblock %}
+</html>

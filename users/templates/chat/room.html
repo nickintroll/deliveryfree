@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="centered">
+	<h3 class="centered">
+		Chat with {{ other|title }}
+	</h3>
+
+	<div class="chat-block">
+		<div id="chat-field">
+			{% for i in chat.messages.all %}
+				<div style="overflow: hidden;" class="{% if not i.is_read %}unread-message-back{% endif %} message-container">
+					<div class="{% if i.creator == request.user.profile %}stick-to-right{% endif %} message-item">
+						{{ i.message }}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="six-columns">
+		<div class="span-five">
+			<input type="text" placeholder="message" id="message_text">
+		</div>
+		
+		<div class="chat-message-send-but">
+			<svg class="svg-snoweb svg-theme-light" viewbox="0 0 100 100" height="25" width="25" id="messaeg_send_but">
+				<path class="svg-stroke-primary" d="M50,75l32.1,7.1L50,17.9,17.9,82.1Zm0,0V46.4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="8"></path>
+			</svg>
+		</div>
+
+	</div>
+
+</div>
+
+
+
+
+<script>
+	var url = 'ws://' + window.location.host + '/ws/chat/{{ chat.slug }}/';
+	var chatsocket = new WebSocket(url);
+	var me_id = '{{ request.user.profile.id }}';
+	var $chat = document.getElementById('chat-field');
+	$chat.scrollTop = $chat.scrollHeight;
+
+	chatsocket.onmessage = function (e) {
+		// receiving messages
+		let DATA = JSON.parse(e.data);
+		let message = DATA.message;
+		let mes_class = '';
+		if (me_id == DATA.user_id) {
+			mes_class = 'stick-to-right'
+		}else{
+			mes_class = '';
+		}
+
+		$chat.innerHTML += 
+		'<div style="overflow: hidden;" class="message-container">' +
+				'<div class="' + mes_class + ' message-item">' +
+					message
+				'</div>' +
+			'</div>';
+		$chat.scrollTop = $chat.scrollHeight;
+
+	}
+
+	chatsocket.onclose = function(e) {
+		console.log('chat socket is closed for whatever reason');
+	};
+
+</script>
+
+<script>
+	// sending form
+	var mess_input = document.getElementById('message_text');
+	var mess_but = document.getElementById('messaeg_send_but');
+
+	let send_function = function(e) {
+		let message = mess_input.value;
+
+		if (message != '') {
+			chatsocket.send(JSON.stringify({'message': message, 'user_id': '{{ request.user.profile.id }}', 'chat_id': '{{ chat.id }}'}));
+
+			mess_input.value = '';
+			mess_input.focus();
+		}
+	}
+
+	mess_but.onclick = send_function;
+
+	// sending message on enter
+	mess_input.onkeydown = function(e) {
+		if (e.keyCode == 13) {
+			send_function()
+		}
+	}
+</script>
+
+{% endblock %}

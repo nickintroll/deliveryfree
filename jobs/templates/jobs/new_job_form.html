@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<br>
+<div class="centered content-width">
+	<form method="POST">
+			<div class="inline-bastards">
+				<h1>				
+					<div id="title-field-target">
+							Title
+					</div>
+					<div class="hidden" id="title-field-place">
+						{{ form.job_title }}
+					</div>
+				</h1>
+				<div class="edit-but" id="title-field">
+					edit
+				</div>
+				<div class="half-tab">
+					Creator: <strong>{{ request.user }}</strong>
+				</div>
+			</div>
+			<div class="block">
+			<h5 class="inline-bastards">
+				<div id="location-field-target">
+					Location
+				</div>
+				<div class="hidden" id="location-field-place">
+					{{ form.location }}
+				</div>
+				<span class="edit-but" id="location-field">
+					edit
+				</span>
+
+				<div class="fade-text">
+					| date
+				</div>	
+			</h5>
+			<div class="inline-bastards">
+				<h3 id="salary-field-target">
+					100p
+				</h3>
+				<div class="hidden" id="salary-field-place">
+					{{ form.salary }}
+				</div>
+				<span class="edit-but" id="salary-field">
+					edit
+				</span>
+
+				<span class="half-tab inline-bastards">
+					(<h4 id="type-field-target">
+						Постоянная работа
+					</h4>
+					<span class="hidden" id="type-field-place">
+						{{ form.type }}
+					</span>
+					)
+					<span class="edit-but" id="type-field">
+						edit
+					</span>	
+				</span>
+			</div>
+
+			<div class="gray-back">
+
+				<div class="inline-bastards inline-top">
+					<span class="hidden" id="description-field-place">
+						{{ form.description }}
+					</span>
+					<span id="description-field-target">
+							Here is job description.
+							<br>
+							<br>
+							Change it, or it will be empty
+					</span>		
+					<span class="edit-but" id="description-field">
+						edit
+					</span>
+
+				</div>
+			</div>
+			<br>
+			<h3>
+				Requirements:
+			</h3>
+			<span class="" id="">
+				{% for req in reqs %}
+					<div class="inline-bastards">
+						<input type="checkbox" value="{{ req.pk }}" name="reqs{{ req.pk }}">
+						<div>
+							{{ req|title }}
+						</div>
+					</div>					
+				{% endfor %}
+			</span>
+			
+		<br>
+		<div>
+			{{ form.status }}
+		</div>
+		<br>
+
+		
+
+		{% csrf_token %}
+		<div>
+			<input type="submit" value="save" class="submit-blue-classy">
+		</div>
+	</form>
+</div>
+
+
+
+{% endblock  %}
+
+
+{% block afterbody %}
+<script>
+	var buts = document.getElementsByClassName('edit-but');
+	for (let i=0; i < buts.length; i++){
+		buts[i].onclick = function(e) {
+
+			let place = document.getElementById(e.target.id + '-place');
+			let target = document.getElementById(e.target.id + '-target');
+			
+
+			if (e.target.textContent.replaceAll('\n', '').replaceAll('\t', '')=='edit'){
+				// opening field
+				place.style['display']='inline-block';
+				target.style['display'] = 'none';
+
+				if (place.getElementsByTagName('input').length > 0) {
+					place.getElementsByTagName('input')[0].focus();
+				} else {
+					if (place.getElementsByTagName('textarea').length > 0) {
+						place.getElementsByTagName('textarea')[0].focus();
+					};
+				}
+
+				e.target.innerHTML = 'commit'
+			} else {
+				// closing field
+				place.style['display']= 'none';
+
+
+				if (place.getElementsByTagName('input').length > 0) {
+					target.innerHTML = place.getElementsByTagName('input')[0].value;
+				} else {
+					if (place.getElementsByTagName('select').length > 0) {
+
+						let thing = place.getElementsByTagName('select')[0];
+						if (thing) {
+							if (thing.value != '') {
+								if (e.target.id.includes('requirements')) {
+									target.innerHTML = thing.options[thing.value-1].text;	
+								} else {
+									target.innerHTML = thing.options[thing.value].text;
+								}
+							}
+						}
+
+					} else {
+						if (place.getElementsByTagName('textarea').length > 0) {
+							let thing = place.getElementsByTagName('textarea')[0];
+							target.innerHTML = place.getElementsByTagName('textarea')[0].value;
+
+						}
+					}
+				}
+	
+				target.style['display'] = 'inline-block';
+				
+				e.target.innerHTML = 'edit'
+			}
+
+		}
+	}
+</script>
+{% endblock %}

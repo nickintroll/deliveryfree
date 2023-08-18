@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="content-width centered">
+	<form method="post" enctype="multipart/form-data">
+		<div class="centered">
+			<h2>
+				Updating the profile
+			</h2>
+		
+			<div class="block">	
+				
+				<div>
+					<h4>
+						Profile Picture
+					</h4>
+	
+					{{ form.picture }}
+				</div>
+				<br>
+
+				<div>
+					<h4>
+						Birth date
+					</h4>
+					<input type="date" name="birth_date" id="id_birth_date">
+				</div>
+
+				<div>
+					<h4>
+						Education
+					</h4>
+					{{ form.education }}
+				</div>
+				<div>
+					<h4>Description</h4>
+					{{ form.description }}
+				</div>
+
+				{% csrf_token %}
+			</div>
+			<br>
+			<input type="submit" value="Save changes" class="button-classy">
+			
+		</div>
+
+	</form>
+
+</div>
+
+{% endblock %}

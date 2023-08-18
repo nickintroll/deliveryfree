@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load userstags %}
+
+{% block content %}
+<div class="content-width centered push-top-6">
+	<div class="phone-center">
+		<div style="position: relative;">
+			<div class="inline-bastards">
+				<div>
+					<h2>
+						{{ user|title }}
+					</h2>	
+				</div>
+				{% if controll %}
+				<div>
+					<a href="{% url 'users:update_profile' %}">edit</a> 
+				</div>
+				{% endif %}	
+				<div>
+					{% if not controll %}
+					<div>   
+						<a href="{% url 'users:chat_room_enter' user.slug %}">
+							send a message
+						</a>
+					</div>
+					{% endif %}
+	
+				</div>
+			</div>
+			{% if controll %}
+			<div class="stick-to-right-top">
+				<div>
+					<a href="{% url 'users:logout' %}">exit</a>
+				</div>
+			</div>
+			{%  endif %}
+		</div>
+		<div class="three-columns destroy-grid">
+			<div class="block span-two">
+				<div class="inline-bastards inline-top">
+					<div>
+						<div class="profile-pic-wrap">
+							{% if user.picture %}
+							<div style="background: url({{ user.picture.url }});" class="profile-pic-big">
+							</div>
+							{% else %}
+							<div style="background: url({% static 'img/prof_placeholder.jpg' %});" class="profile-pic-big">
+							</div>
+							{% endif %}
+						</div>
+					</div>
+					<div>
+						<h4>
+							About me:
+						</h4>
+						<div class="gray-back min-h-3 big-descript-profile">
+							{{ user.description }}
+						</div>						
+						<br>
+						<div>
+							Age: {{ user.age }}
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div>
+				<div class="block phone-hide">
+					<h4>
+						Stats info
+					</h4>
+					<div>
+						Jobs: {{ user.jobs.all|length }}
+					</div>
+
+					<div>
+						Comments: {{ user.comments.all|length }}
+					</div>
+				</div>
+			
+			</div>
+		
+		</div>
+	</div>
+	<div class="three-columns destroy-grid phone-center">
+		<!-- column one -->
+		<div class="push-top-6">
+			{% if controll %}
+				<h3>
+					My chats
+				</h3>
+				<div class="block centered">
+					{% for chat in user.get_my_chats %}
+						<div class="chat-profile-list-item">
+							<h5>
+								{% chat_dif_user chat request %}	
+							</h5>
+						
+							<div class="unread-message-back">
+								<a href="{% url 'users:chat_room' chat.slug %}">
+									{{ chat.messages.last.message|truncatewords:5 }}
+								</a>	
+							</div>
+						</div>
+					{% empty %}
+						<h4>no chats yet</h4>
+					{% endfor %}
+				</div>
+			{% else %}
+				<h3>
+					Chat
+				</h3>
+				<div>
+					...no conversation with this user...
+				</div>
+			{% endif %}
+		</div>
+		<!-- column two -->
+		<div class="phone-hide">
+			<h3 class="centered">My comments</h3>
+			{% for com in user.comments.all %}
+			<div class="block">
+				<h4>
+					<a href="{{ com.job.get_absolute_url }}">
+						{{ com.job }}
+					</a>
+				</h4>
+				<div class="gray-back">
+					{{ com.comment }}
+					<h5>
+						{{ com.created }}
+					</h5>	
+				</div>
+	
+			</div>
+			<br>
+			{% empty %}
+			<div class="centered">
+				no comments yet
+			</div>
+			{% endfor %}
+	
+		</div>
+
+		<!-- column three -->
+		<div class="push-top-6">
+			<h3>
+				User's jobs
+			</h3>
+			{% if controll %}
+				<div>
+					<a href="{% url 'jobs:creation' %}">
+						<div class="small-classy">
+							Create a new job +
+						</div>
+					</a>
+				</div>
+			{% endif %}
+			{% for job in user.jobs.all %}
+				<div class="block ">
+					<div class="inline-bastards">
+						<h3>
+							<a href="{{ job.get_absolute_url }}">{{ job.job_title|title }}</a>
+						</h3>
+						<div>
+							({{ job.location }})
+						</div>
+					</div>
+					<h5 class="job-sal-type-line">
+						{{ job.salary }}p <span class="tab">({{ job.type }})</span>
+					</h5>
+					<div class="gray-back tight-30">
+						{{ job.description|truncatechars:250 }}
+						<br>
+						<br>
+						{% for req in job.requirements.all %}
+						{% empty %}
+						{% endfor %}
+					</div>
+				</div>
+			{% empty %}
+				no jobs created
+			{% endfor %}
+		</div>
+	</div>
+	<br>
+	<br>
+</div>
+<!-- test password: 
+shitPasswrod213 -->
+{% endblock %}

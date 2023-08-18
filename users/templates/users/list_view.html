@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+	<h2 class="centered">
+		Employees list
+	</h2>
+	<div class="centered">
+		<!-- <input type="text" placeholder="search"> -->
+		<form method="GET">
+			<br>
+			{% if is_search %}
+				<div class="centered">
+					<a href="{% url 'users:list' %}">undo</a>
+				</div>
+			{% endif %}
+			<div class="inline-bastards">
+				<div>
+					{{ form_.search }}
+				</div>
+				<h6>
+					<div class="gray-back" style="width:fit-content" id="form-expand-but">
+							more
+					</div>
+				</h6>
+			</div>
+			<div class="hidden" id="form-expand-thing">
+				{{ form_.age_from }}
+				<br>
+				{{ form_.age_to }}
+			</div>
+			<div class='centered'>
+				<input type="submit" value="Search">
+			</div>
+		</form>
+	</div>
+	<div class="centered five-columns destroy-grid" id="users-list">
+		{% for u in users %}
+		<div class="block">
+			<h3>
+				<a href="{{ u.get_absolute_url }}">{{ u|title }}</a>
+			</h3>
+			<div>
+				<h6 class="fade-text">
+					{{ u.user.date_joined.year }}.{{ u.user.date_joined.month }}.{{ u.user.date_joined.day }}
+				</h6>
+			</div>
+			<div class="gray-back">
+				{{ u.description }}
+
+			</div>
+			<div class="inline-bastards" style="margin-top: .3rem;">
+				<div>
+					(age: 
+					{% if u.age %}
+						{{ u.age }}
+					{% else %}
+						-
+					{% endif %}
+					)
+				</div>
+
+				<div class="small-classy">
+					<a href="{% url 'users:chat_room_enter' u.slug %}">Message</a>
+				</div>	
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+{% endblock %}
+
+{% block afterbody %}
+	<script language="JavaScript" type="text/javascript" src="{% static '/js/jquery-1.2.6.min.js' %}"></script>
+	
+	<script>
+		var page = 1;
+		var empty_page = false;
+		var block_request = false;
+		var users_list = document.getElementById('users-list');
+	
+		window.onscroll = function () { 
+			var margin = document.body.scrollHeight - window.innerHeight - 100;
+			if (pageYOffset > margin && empty_page == false && block_request == false) {
+				block_request = true;
+				page += 1;
+				
+				// making sure that search results are continuing and not just starting over without search
+				let curUrl = window.location;
+
+				$.get('?page=' + page + curUrl.href.replace(curUrl.origin, '').replace('/usr/list/', '').replace('?', '&') 
+					, function(data) {
+					if (data == '') {
+						empty_page=true;
+					} else {
+						block_request = false;
+						users_list.innerHTML += data;
+					}
+				});
+			};
+			};
+	</script>
+
+	<script>
+		var but = document.getElementById("form-expand-but");
+		var thing = document.getElementById("form-expand-thing");
+
+		but.onclick = function(e) {
+			if (thing.style['display'] == 'none') {
+				thing.style['display'] = 'block';
+				but.innerHTML = 'less';
+			} else {
+				thing.style['display'] = 'none';	
+				but.innerHTML = 'more'
+			}
+
+		}
+	</script>
+{% endblock %}

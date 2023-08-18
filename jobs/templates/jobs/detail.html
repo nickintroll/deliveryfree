@@ -1,0 +1,347 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content-width centered">
+	<br>
+	<div class="inline-bastards">
+		<h1>
+			<a href="{{ job.get_absolute_url }}">
+				{{ job|title }}
+			</a>
+		</h1>
+		{% if controll %}
+			(your) <a href="{% url 'jobs:edit' job.slug %}">edit</a>
+		{% endif %}
+	</div>	
+				<h5>
+				{{ job.location }} | <span class="fade-text">created: {{ job.created.date }}</span>
+			</h5>
+
+
+	<div class="six-columns destroy-grid">
+		<div class="block span-five">
+			<div class="inline-bastards">
+				<h2 class="salary">
+					{{ job.salary }}p
+				</h2>
+				(<h3>
+					{{ job.type }}
+				</h3>)
+			</div>
+			<div class="gray-back">
+				{{ job.description }}
+			</div>
+			<br>
+			<h3>
+				Requirements:
+			</h3>
+			<div class="inline-bastards requirements">
+				{% for req in job.requirements.all %}
+					<div>
+						{{ req|title }}
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		<div>
+			<div class="block">
+				<div class="inline-bastards inline-top">
+					<div>
+						{% with job.owner as emp %}
+						{% if emp.picture %}
+							<div style="background: url({{ emp.picture.url }});" class="profile-pic-mid">
+							</div>
+							{% else %}
+							<div style="background: url({% static 'img/prof_placeholder.jpg' %});" class="profile-pic-mid">
+							</div>
+							{% endif %}
+						{% endwith %}
+					</div>
+					<div>
+						<h3>
+							<a href="{{ job.owner.get_absolute_url }}">
+								{{ job.owner|title }}
+							</a>
+						</h3>
+						<div class="gray-back">
+								{{ job.owner.description|truncatechars:80 }}
+						</div>
+						<div>
+							<a href="{{ job.owner.get_absolute_url }}">Visit</a>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	{% if not controll %}
+		{% if not users_answer %}
+		<div class="block">
+			<div class="two-columns">
+				<div>
+					<h3>Answer to this job</h3>
+					<br>
+					<div>
+						Fill form on the right and send it to {{ job.owner|title }}. 
+						<br>
+						<br>
+						Creator will see your answer on this page. Make sure to provide answers to questions and propositions asked in the job description.
+						<br>
+						<br>
+						<span class="fade-text">
+							Only the creator of this job will see your answer,
+						</span>
+					</div>
+				</div>
+				<div>
+					<form method="post">
+						<div>
+							{{ answerform.description }}
+						</div>
+						<div>
+							{% csrf_token %}
+							<input type="submit" value="send" class="button-classy">
+						</div>
+					</form>
+				
+				</div>
+			</div>
+		</div>
+		{% else %}
+			<div class="centered">
+				<h3>
+					Your answer to this job (<a href="">edit</a>)
+				</h3>
+				<div class="block">
+					<div class="four-columns">
+						<div>
+							pic
+						</div>
+						<div class="span-three">
+							<h4>
+								{{ users_answer.creator|title }}
+							</h4>
+							<div>
+								age: {{ users_answer.creator.age }}
+							</div>
+				
+						</div>
+					</div>
+					<div class="gray-back">
+						{{ users_answer.description }}
+					</div>
+					<h6>
+						{{ users_answer.created.year }}.{{ users_answer.created.month }}.{{ users_answer.created.day }} ({{ users_answer.created.hour }}:{{ users_answer.created.minute }})
+					</h6>
+				</div>
+			</div>
+		{% endif %}
+	{%  else %}
+		<div>
+			<h3>
+				Answers to your job
+			</h3>
+			<div class="inline-bastards inline-top">
+				{% for users_answer in job.answers.all %}
+				<div class="block">
+					<div class="four-columns">
+						<div>
+							pic
+						</div>
+						<div class="span-three">
+							<h4>
+								<a href="{{ users_answer.creator.get_absolute_url }}">
+									{{ users_answer.creator|title }}
+								</a>
+							</h4>
+							<div>
+								age: {{ users_answer.creator.age }}
+							</div>
+				
+						</div>
+					</div>
+					<div class="gray-back">
+						{{ users_answer.description }}
+					</div>
+					<h6>
+						{{ users_answer.created.year }}.{{ users_answer.created.month }}.{{ users_answer.created.day }} ({{ users_answer.created.hour }}:{{ users_answer.created.minute }})
+					</h6>
+				</div>
+			{% empty %}
+				<div>
+					Answers will appear in this section as someone will leave their proposition
+				</div>
+			{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+	<br>
+	<div class="block">
+		<h2>
+			Comments
+		</h2>
+	
+		<form method="post" id="comment-form">
+			<div id="all-comments-list">
+				{% for com in comments %}
+					<div style="margin-left: calc({{ com.get_comment_level }}*1.5rem); border-top: 1px solid rgb(230, 230, 230);" class="{{ com.get_comment_level}}">
+						<a href="{{ com.creator.get_absolute_url }}">
+							{{ com.creator }}
+						</a>
+						<div class="gray-back" style="width: fit-content">
+							{{ com.comment }} <br>
+							<!-- (id:{{com.id }}, is_answer:{{ com.is_answer }}, answer_to:{{com.answer_to.id}}) -->
+						</div>
+						<div class="answ-but" id="form-place-{{ com.id }}">
+							<div class="inline-bastards step-up">
+								<h6 class="fade-text" >
+									{{ com.created.date.year }}.{{ com.created.date.month }}.{{ com.created.date.day }} {{ com.created.hour }}:{{ com.created.minute }}
+								</h6>
+								{% if com.get_comment_level < 7 %}
+									<h6 class="comment-but half-tab" style="width: fit-content" id="{{ com.id }}">
+										Reply
+									</h6>									
+								{% endif %}
+							</div>
+							{% if com.get_comment_level < 7 %}
+							{% endif %}
+							<div class="hidden">
+								<div>
+									{{ commentForm.comment }}
+								</div>
+								<div>
+									<input type="submit" value="leave a comment">
+								</div>
+							</div>							
+						</div>
+					</div>
+
+				{% endfor %}
+			</div>
+			<br>
+			<div id="original-comment-place" class="inline-bastards inline-top">
+				<div>
+					{{ commentForm.comment }}
+				</div>
+				<div>
+					<div id="send-icon" onClick="submit_origin(event)">
+						<svg class="svg-snoweb svg-theme-light" viewbox="0 0 100 100" height="40" width="40">
+							<path class="svg-stroke-primary" d="M50,75l32.1,7.1L50,17.9,17.9,82.1Zm0,0V46.4" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="8">
+							</path>
+						</svg>
+					</div>
+				</div>
+			</div>	
+			<div class="hidden" id="ignore">
+				{{ commentForm.answer_to }}
+			</div>
+			{% csrf_token %}
+
+		</form>
+	</div>
+	<br>
+	<br>
+
+	<div>
+		<h2>
+			More from same user
+		</h2>
+		<div class="four-columns">
+			{% for job in more_from_this_dev %}
+				<div class="block lil-push">
+					<h3>
+						<a href="{{ job.get_absolute_url }}">
+							{{ job }}
+						</a>
+					</h3>
+					<div class="gray-back">
+						{{ job.description|truncatewords:4 }}
+					</div>
+	
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% endblock %}
+
+
+{% block afterbody %}
+<script>
+	var origin_place = document.getElementById('original-comment-place');
+	var form_open_buts = document.getElementsByClassName('answ-but');
+	
+
+	for (let i=0; i< form_open_buts.length; i++){
+		let button = form_open_buts[i].getElementsByClassName('comment-but')[0];
+
+		button.onclick = function(e) {
+			// hiding and deactivating original form
+			origin_place.getElementsByTagName('textarea')[0].disabled = true;
+	
+			// hiding and closing all forms
+			for (let c=0; c< form_open_buts.length; c++){
+				let item = form_open_buts[c].getElementsByClassName('hidden')[0];
+				item.style['display'] = 'none';
+				item.getElementsByTagName('textarea')[0].disabled = true;
+
+			}
+
+			// opening and activating the form
+			let item = document.getElementById('form-place-' + e.target.id).getElementsByClassName('hidden')[0];
+			item.style['display'] = 'block'
+			let form = item.getElementsByTagName('textarea')[0];
+			form.disabled = false;
+			form.focus()
+
+			// passing comment id to form
+			document.getElementById('id_answer_to').value = e.target.id;
+
+		}
+	}
+
+
+	origin_place.onclick = function (e) {
+		document.getElementById('id_answer_to').value = ''
+		origin_place.getElementsByTagName('textarea')[0].disabled = false;
+		origin_place.getElementsByTagName('textarea')[0].focus()
+
+		// disabling other stuff
+		for (let c=0; c< form_open_buts.length; c++){
+			let item = form_open_buts[c].getElementsByClassName('hidden')[0];
+			item.style['display'] = 'none';
+			item.getElementsByTagName('textarea')[0].disabled = true;
+		}
+
+		// submitting
+		// document.getElementById('comment-form').submit()
+
+	}
+
+	var submit_origin = function() {
+		for (let c=0; c< form_open_buts.length; c++){
+				let item = form_open_buts[c].getElementsByClassName('hidden')[0];
+				item.style['display'] = 'none';
+				item.getElementsByTagName('textarea')[0].disabled = true;
+
+			}
+		origin_place.getElementsByTagName('textarea')[0].disabled = false;
+		document.getElementById('comment-form').submit()		
+	}
+</script>
+{% endblock %}
