@@ -25,10 +25,10 @@ def register_page(request):
 			try:
 				_password = form.clean_password()
 			except ValidationError:
-				return render_(request, 'user/register.html', 
+				return render(request, 'users/register.html', 
 					{
 						'form': form, 
-						'notification': "Password don't matching"
+						'note': "Password don't matching"
 					})
 
 			new_user.set_password(_password)
@@ -79,13 +79,19 @@ def login_page(request):
 
 def profile_page(request, slug=None):
 	controll = False
-	user = request.user.profile
+
+	
+	if request.user.is_authenticated:
+		user = request.user.profile
+	else:
+		user = None
 
 	if slug:
 		user = get_object_or_404(Profile, slug=slug)
 	
-	if user == request.user.profile:
-		controll = True
+	if request.user.is_authenticated:	
+		if user == request.user.profile:
+			controll = True
 
 
 	return render(request, 'profile/profile.html', {'controll': controll, 'user': user})

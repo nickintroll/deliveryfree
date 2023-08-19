@@ -107,8 +107,7 @@ DATABASES = {
 		'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'jobsearchbase',
 		'USER': 'jobsearchuser',
-		'PASSWORD': 'thisisourNewP4SSW0Rdsh1t'
-
+		'PASSWORD': 'thisisourNewP4SSW0Rdsh1t',
     }
 }
 

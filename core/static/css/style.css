@@ -526,7 +526,9 @@ h1 strong{
 .big-descript-profile{
 	max-width: 60ch;
 }
-
+.thight-block-log-reg{
+	max-width: 19ch;
+}
 
 @media only screen and (max-width: 900px){
 	body{
