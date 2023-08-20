@@ -87,19 +87,24 @@
 				{% for job in jobs %}
 				<div class="four-columns">
 					<div class="block span-three phone-full-columns">
-						<h3>
-							<a href="{{ job.get_absolute_url }}">
-								{{ job.job_title|title }}
-							</a>
-							<span class="fade-text">
-								( {{ job.salary }}p)
-							</span>
-						</h3>
+						<div class="inline-bastards inline-top">
+							<h3>
+								<a href="{{ job.get_absolute_url }}">
+									{{ job.job_title|title|truncatechars:42 }}
+								</a>
+							</h3>
+							<h4 style="margin-left: 1rem;">
+								<span class="salary">
+									{{ job.salary }}p
+							   </span>
+							</h4>
+	
+						</div>
 						<div class="five-columns">
 							
 							<div class="span-four">
 								<div class="gray-back">
-									{{ job.description }}
+									{{ job.description|truncatewords:42|linebreaks }}
 								</div>
 								<h6 class="stick-to-right">
 									{{ job.created.year }}.{{ job.created.month }}.{{ job.created.day }} {{ job.created.hour }}:{{ job.created.minute }}
@@ -123,35 +128,39 @@
 						
 	
 					</div>
-					<div class="block phone-hide">
-						<div class="inline-bastards inline-top">
-							<div>
-								{% with job.owner as emp %}
-								{% if emp.picture %}
-									<div style="background: url({{ emp.picture.url }});" class="profile-pic-mid">
-									</div>
-									{% else %}
-									<div style="background: url({% static 'img/prof_placeholder.jpg' %});" class="profile-pic-mid">
-									</div>
-									{% endif %}
-								{% endwith %}
-							</div>
-							<div>
-								<h3>
-									<a href="{{ job.owner.get_absolute_url }}">
-										{{ job.owner|title }}
-									</a>
-								</h3>
-								<div class="gray-back">
-									<h6>
-										{{ job.owner.description|truncatechars:20 }}
-									</h6>
+					<div>
+						<div class="block phone-hide">
+							<div class="inline-bastards inline-top">
+								<div>
+									{% with job.owner as emp %}
+									{% if emp.picture %}
+										<div style="background: url({{ emp.picture.url }});" class="profile-pic-mid">
+										</div>
+										{% else %}
+										<div style="background: url({% static 'img/prof_placeholder.jpg' %});" class="profile-pic-mid">
+										</div>
+										{% endif %}
+									{% endwith %}
 								</div>
 								<div>
-									<a href="{{ job.owner.get_absolute_url }}">Visit</a>
+									<h3>
+										<a href="{{ job.owner.get_absolute_url }}">
+											{{ job.owner|title }}
+										</a>
+									</h3>
+									<div class="gray-back">
+										<h6>
+											{{ job.owner.description|truncatechars:20 }}
+										</h6>
+									</div>
+		
 								</div>
-	
 							</div>
+							<div class="stick-to-right">
+								<a href="{{ job.owner.get_absolute_url }}">Visit</a>
+							</div>
+							<br>
+							
 						</div>
 					</div>
 				</div>

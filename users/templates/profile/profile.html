@@ -93,15 +93,16 @@
 				<div class="block centered">
 					{% for chat in user.get_my_chats %}
 						<div class="chat-profile-list-item">
-							<h5>
-								{% chat_dif_user chat request %}	
-							</h5>
+							<a href="{% url 'users:chat_room' chat.slug %}">
+								<h5>
+									{% chat_dif_user chat request %}	
+								</h5>
 						
 							<div class="unread-message-back">
-								<a href="{% url 'users:chat_room' chat.slug %}">
 									{{ chat.messages.last.message|truncatewords:5 }}
-								</a>	
 							</div>
+						</a>	
+
 						</div>
 					{% empty %}
 						<h4>no chats yet</h4>
@@ -120,7 +121,7 @@
 		<div class="phone-hide">
 			<h3 class="centered">My comments</h3>
 			{% for com in user.comments.all %}
-			<div class="block">
+			<div class="block block-less">
 				<h4>
 					<a href="{{ com.job.get_absolute_url }}">
 						{{ com.job }}
@@ -134,7 +135,6 @@
 				</div>
 	
 			</div>
-			<br>
 			{% empty %}
 			<div class="centered">
 				no comments yet
@@ -171,13 +171,10 @@
 						{{ job.salary }}p <span class="tab">({{ job.type }})</span>
 					</h5>
 					<div class="gray-back tight-30">
-						{{ job.description|truncatechars:250 }}
+						{{ job.description|truncatewords:20 }}
 						<br>
-						<br>
-						{% for req in job.requirements.all %}
-						{% empty %}
-						{% endfor %}
 					</div>
+					<br>
 				</div>
 			{% empty %}
 				no jobs created

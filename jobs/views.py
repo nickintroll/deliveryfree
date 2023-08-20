@@ -73,6 +73,8 @@ def creating_job(request):
 
 	form = JobForm()
 	
+	notification = ''
+
 	if request.method == 'POST':
 		form = JobForm(request.POST)
 		if form.is_valid():
@@ -90,9 +92,18 @@ def creating_job(request):
 							)
 
 			job.save()
-
 			return redirect('users:profile')
-	return render(request, 'jobs/new_job_form.html', {'form': form, 'reqs': reqs})
+	
+	if form.errors:
+		errors = form.errors.as_data()
+		
+		errors[list(errors.keys())[0]][0].message
+
+		notification = list(errors.keys())[0] + ': '+ errors[list(errors.keys())[0]][0].message
+		
+		form.errors.clear()
+
+	return render(request, 'jobs/new_job_form.html', {'form': form, 'reqs': reqs, 'notification': notification})
 
 
 def detail(request, slug):
@@ -108,17 +119,24 @@ def detail(request, slug):
 			controll = True
 
 		users_answer = job.answers.filter(creator=request.user.profile)
-		if len(users_answer) == 1:
+		if len(users_answer) != 0:
 			users_answer = users_answer[0]
 
 	commentForm = CommentForm()
-	answerform = JobAnswerForm()
+	print(users_answer)
+	if users_answer:
+		answerform = JobAnswerForm(instance=users_answer)
+	else:
+		answerform = JobAnswerForm()
+	
 
 	if request.method == 'POST':
 		if request.user.is_authenticated:
 			commentf = CommentForm(request.POST)
-			answerf = JobAnswerForm(request.POST)
-
+			if users_answer:
+				answerf = JobAnswerForm(request.POST, instance=users_answer)
+			else:
+				answerf = JobAnswerForm(request.POST)
 			if 'description' in request.POST:
 				# working with jobanswer
 				if answerf.is_valid():

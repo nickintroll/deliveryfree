@@ -3,17 +3,17 @@
 
 
 html {
-	/* background-color: rgb(88, 88, 88); */
-	background: 
-	linear-gradient(rgb(255, 255, 255, .1), rgb(255, 255, 255, .1)),
-    radial-gradient(rgb(190, 181, 83, 0.5) 3px, transparent 4px),
-    radial-gradient(rgb(190, 114, 114, 0.5) 3px, transparent 4px),
-    linear-gradient(#fff 4px, transparent 0),
-    linear-gradient(45deg, transparent 74px, transparent 75px, #f6c6c6 75px, #f6c6c6 76px, transparent 77px, transparent 109px),
-    linear-gradient(-45deg, transparent 75px, transparent 76px, #f6c6c6 76px, #f6c6c6 77px, transparent 78px, transparent 109px),
-    #fff;
-    background-size: 109px 109px, 109px 109px,100% 6px, 109px 109px, 109px 109px;
-    background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px;
+	background-color: rgb(239, 239, 232) !important;
+	/* background:  */
+	/* linear-gradient(rgb(255, 255, 255, .1), rgb(255, 255, 255, .1)), */
+    /* radial-gradient(rgb(190, 181, 83, 0.5) 3px, transparent 4px), */
+    /* radial-gradient(rgb(190, 114, 114, 0.5) 3px, transparent 4px), */
+    /* linear-gradient(#fff 4px, transparent 0), */
+    /* linear-gradient(45deg, transparent 74px, transparent 75px, #f6c6c6 75px, #f6c6c6 76px, transparent 77px, transparent 109px), */
+    /* linear-gradient(-45deg, transparent 75px, transparent 76px, #f6c6c6 76px, #f6c6c6 77px, transparent 78px, transparent 109px), */
+    /* #fff; */
+    /* background-size: 109px 109px, 109px 109px,100% 6px, 109px 109px, 109px 109px; */
+    /* background-position: 54px 55px, 0px 0px, 0px 0px, 0px 0px, 0px 0px; */
   }
 
 body{
@@ -46,6 +46,7 @@ a:hover{
 	transition: 0.2s;
 	color: rgb(169, 0, 28);
 	/* text-decoration-color: black; */
+	text-decoration: underline;
 }
 
 input[type='submit']{
@@ -149,7 +150,7 @@ h1 strong{
 	color: rgb(158, 158, 158);
 }
 .salary{
-	color: green;
+	color: rgb(24, 203, 24);
 }
 
 .span-two{
@@ -240,12 +241,14 @@ h1 strong{
 }
 
 .block{
-	background-color: rgba(255, 255, 255, 1);
-	backdrop-filter: blur(.5rem);	
-	padding: 0.5rem 1rem;
+	background-color: rgba(255, 255, 255);
+	padding: 0.5rem .8rem;
 	box-shadow: .1rem .1rem 0.4rem rgba(0, 0, 0, 0.4);
-	border-radius: 0.15rem;
+	border-radius: 0.2rem;
 	margin: 0.4rem 0.2rem;
+}
+.block-less{
+	padding: 0.2rem .5rem;
 }
 
 .force-width-full{
@@ -276,6 +279,12 @@ h1 strong{
 	border: 2px solid rgba(255, 0, 0, 0.6);
 	margin-top: 0.5rem;
 	/* margin-bottom: 0.5rem; */
+}
+.notification-small-mid{
+	background-color: rgba(255, 100, 50, 0.4);
+	border: 2px solid rgba(255, 100, 50, 0.6);
+	padding: 0.5rem;
+	width: fit-content;
 }
 
 .half-tab{
@@ -411,9 +420,8 @@ h1 strong{
 .requirements > div, .requirements > h5{
 	/* border: 1px solid gray; */
 	padding: .4rem .9rem;
-	background-color: rgba(173, 216, 230, 0.6);
-	border-radius: .3rem;
 	margin: 0.2rem;
+	border-left: 2px solid pink;
 }
 
 .reques-small{
@@ -425,10 +433,13 @@ h1 strong{
 }
 
 .gray-back{
-	padding: 0.5rem;
-	border: 1px solid lightgray;
-	background-color: rgb(247, 240, 240);
+	padding: 0.4rem .3rem;
+	/* border: 1px solid lightgray; */
+	background-color: rgb(241, 235, 235);
 	min-height: 1rem;
+	border-radius: .2rem;
+	margin-top: .2rem;
+	margin-bottom: .1rem;
 }
 
 .lil-push{

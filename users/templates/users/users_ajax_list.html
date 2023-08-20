@@ -1,25 +1,31 @@
 {% for u in users %}
-	<div class="block">
-		<h3>
-			<a href="{{ u.get_absolute_url }}">{{ u|title }}</a>
-		</h3>
+<div class="block">
+	<h3>
+		<a href="{{ u.get_absolute_url }}">{{ u|title }}</a>
+	</h3>
+	<div>
+		<h6 class="fade-text">
+			{{ u.user.date_joined.year }}.{{ u.user.date_joined.month }}.{{ u.user.date_joined.day }}
+		</h6>
+	</div>
+	<div class="gray-back">
+		{{ u.description|truncatechars:42 }}
+
+	</div>
+	<div class="inline-bastards" style="margin-top: .3rem;">
 		<div>
-			<h6 class="fade-text">
-				{{ u.user.date_joined.year }}.{{ u.user.date_joined.month }}.{{ u.user.date_joined.day }}
-			</h6>
-		</div>
-		<div class="gray-back">
-			{{ u.description }}
-		</div>
-		<a href="{% url 'users:chat_room_enter' u.slug %}">Message</a>
-		<div>
-			(age:
+			(age: 
 			{% if u.age %}
 				{{ u.age }}
 			{% else %}
-				unknown
+				-
 			{% endif %}
 			)
 		</div>
+
+		<div class="small-classy">
+			<a href="{% url 'users:chat_room_enter' u.slug %}">Message</a>
+		</div>	
 	</div>
+</div>
 {% endfor %}

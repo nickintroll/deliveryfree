@@ -79,7 +79,6 @@ def login_page(request):
 
 def profile_page(request, slug=None):
 	controll = False
-
 	
 	if request.user.is_authenticated:
 		user = request.user.profile
@@ -92,7 +91,6 @@ def profile_page(request, slug=None):
 	if request.user.is_authenticated:	
 		if user == request.user.profile:
 			controll = True
-
 
 	return render(request, 'profile/profile.html', {'controll': controll, 'user': user})
 
@@ -116,7 +114,8 @@ def users_list(request):
 	form = EmployeeSearchForm()
 
 	is_search = False
-	print(request.GET)
+	search_request = ''
+
 	# seach logic
 	if 'search' in request.GET.keys():
 		form = EmployeeSearchForm(request.GET)
@@ -126,20 +125,22 @@ def users_list(request):
 			users = Profile.objects.annotate(
 				search=SearchVector('description', 'user__username', 'imlookingfor', 'education'),
 			).filter(search__contains=query['search'])
+			search_request += query['search'] + ', '
 
 	else:
 		users = Profile.objects.all()
-
 
 	if 'age_from' in request.GET.keys():
 		if request.GET['age_from'] != '':
 			is_search = True
 			users.filter(age__gte=request.GET['age_from'])
+			search_request += 'age > ' + request.GET['age_from'] + ', '
 	
 	if 'age_to' in request.GET.keys():
 		if request.GET['age_to'] != '':
 			is_search = True
-			users.filter(age__lte=request.GET['age_from'])
+			users.filter(age__lte=request.GET['age_to'])
+			search_request += 'age < ' + request.GET['age_to']
 
 	# paginator logic
 	# users = Profile.objects.all()
@@ -160,7 +161,7 @@ def users_list(request):
 	if is_ajax(request):
 		return render(request, 'users/users_ajax_list.html', {'users': users, 'form_': form, 'total_users': total_users})
 
-	return render(request, 'users/list_view.html', {'users': users, 'form_': form, 'total_users': total_users, 'is_search': is_search})
+	return render(request, 'users/list_view.html', {'users': users, 'form_': form, 'total_users': total_users, 'is_search': is_search, 'search_request': search_request})
 
 
 @login_required()

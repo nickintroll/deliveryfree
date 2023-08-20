@@ -4,7 +4,7 @@
 <br>
 <br>
 <div class="centered content-width">
-	<form method="POST">
+	<form method="POST" novalidate>
 			<div class="inline-bastards">
 				<h1>				
 					<div id="title-field-target">
@@ -100,8 +100,13 @@
 			{{ form.status }}
 		</div>
 		<br>
+		{% if notification %}
+		<div class="notification-small-mid">
+			{{ notification }}	
+		</div>
+		<br>
 
-		
+		{% endif %}
 
 		{% csrf_token %}
 		<div>
@@ -109,7 +114,6 @@
 		</div>
 	</form>
 </div>
-
 
 
 {% endblock  %}
@@ -123,7 +127,7 @@
 
 			let place = document.getElementById(e.target.id + '-place');
 			let target = document.getElementById(e.target.id + '-target');
-			
+			focus
 
 			if (e.target.textContent.replaceAll('\n', '').replaceAll('\t', '')=='edit'){
 				// opening field

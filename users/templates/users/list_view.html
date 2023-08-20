@@ -10,9 +10,14 @@
 		<form method="GET">
 			<br>
 			{% if is_search %}
-				<div class="centered">
-					<a href="{% url 'users:list' %}">undo</a>
-				</div>
+			<div class="centered">
+				<a href="{% url 'users:list' %}">undo</a>
+			</div>
+
+				<h4 class="centered" style="text-align: center;">
+					Search request for: <br>
+					{{ search_request|title }}
+				</h4>
 			{% endif %}
 			<div class="inline-bastards">
 				<div>
@@ -46,7 +51,7 @@
 				</h6>
 			</div>
 			<div class="gray-back">
-				{{ u.description }}
+				{{ u.description|truncatechars:42 }}
 
 			</div>
 			<div class="inline-bastards" style="margin-top: .3rem;">
